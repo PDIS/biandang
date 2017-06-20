@@ -3,10 +3,11 @@
 	"questions": "問題清單",
 	"add_question": "新增問題",
 	"menu": "菜單",
-	"order": "你要吃什麼？",
+	"order": "你要點什麼？",
 	"add_image": "上傳圖片",
 	"add_image_url": "新增圖片網址",
 	"empty_url_hint": "請輸入圖片網址！",
 	"delete": "刪除",
-	"single_input": "單行回覆"
+	"single_input": "單行回覆",
+	"send": "送出"
 }

@@ -4,17 +4,27 @@ var sprintf = require("sprintf-js").sprintf;
 var levelup = require('levelup');
 var fs = require('fs');
 
-router.get('/', function(req, res, next) {
+var db = levelup('./mydb'); // Don't use var keyword to make it global
+
+router.get('/', function(req, res) {
     db.get('description', function (err, value) {
         var desc = '';
         if (!(err && err.notFound)) {
             desc = value;
         }
         generateImagesHTML(null, function (imagesHTML) {
-            res.render('manage', {
-                'imagesHTML': imagesHTML,
-                'description': desc
-            });
+            // TODO: Change to sandstorm permission check
+            if (false) {
+                res.render('manage', {
+                    'imagesHTML': imagesHTML,
+                    'description': desc
+                });
+            } else {
+                res.render('enquete', {
+                    'imagesHTML': imagesHTML,
+                    'description': desc
+                });
+            }
         });
     });
 });

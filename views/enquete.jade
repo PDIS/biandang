@@ -2,31 +2,16 @@ doctype html
 html
     head
         script(src="lib/jquery-3.2.1.min.js")
-        script(src="client-js/manage_client.js")
-        link(href='/css/manage.css', rel='stylesheet')
+        script(src="client-js/enquete_client.js")
+        link(href='/css/main.css', rel='stylesheet')
     body
         h2= __('menu')
-        p#images!= imagesHTML
-        p
-            | 說明
-            span#saving
-            br
-            textarea#description(cols=70,rows=8)= description
-        p
-            button#add_image_url(onclick="addImageUrl()")= __('add_image_url')
-            span ：
-            input#image_url(size=50)
-        p
-            form(enctype="multipart/form-data", method="post", action="/uploadImage")
-                input#filesToUpload(type="file", name="filesToUpload", multiple="multiple")= __('add_image')
-                output#filesInfo
-                br
-                input(type="submit", value="#{__('add_image')}")#add_image
+        div#images!= imagesHTML
+        div#description(cols=70,rows=8)!= description
         #imageView
             img
         #cover
-            a#deleteImage(href="javascript:void(0);")= __('delete')
-        p
-            form
-                input(type="radio", name="mode", id="singleInputMode", value="singleInput", checked="checked")
-                label(for="singleInputMode")= __('single_input')
+        h2= __('order')
+        input#order(size=35)
+        span &nbsp;
+        button#submit= __('send')
