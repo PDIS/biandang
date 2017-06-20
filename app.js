@@ -6,11 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var i18n = require('i18n');
 var fileUpload = require('express-fileupload');
+var levelup = require('levelup');
 
 var manage = require('./routes/manage');
-var users = require('./routes/users');
+var enquete = require('./routes/enquete');
 
 var app = express();
+db = levelup('./mydb'); // Don't use var keyword to make it global
 
 // i18n setup
 i18n.configure({
@@ -36,11 +38,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', manage);
+app.use('/manage', manage);
 app.use('/uploadImage', manage);
 app.use('/imageUrl', manage);
 app.use('/description', manage);
-app.use('/users', users);
+app.use('/enquete', enquete);
+app.use('/', manage);
+
+// app.get('/', function (req, res) {
+//     // TODO: Change to sandstorm permission check
+//     res.redirect('/manage');
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,10 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var sprintf = require("sprintf-js").sprintf;
-var levelup = require('level');
+var levelup = require('levelup');
 var fs = require('fs');
-
-var db = levelup('./mydb');
 
 router.get('/', function(req, res, next) {
     db.get('description', function (err, value) {
@@ -112,7 +110,6 @@ function deleteImageUrlFromDB(url, callback) {
 function addImageUrlAndSendImageHTML(url, res) {
     addImageUrlToDB(url, function (imageUrls) {
         generateImagesHTML(imageUrls, function (imagesHTML) {
-            console.log(imagesHTML);
             res.send(imagesHTML);
         })
     });
