@@ -20,10 +20,7 @@ router.get('/', function(req, res) {
                     'description': desc
                 });
             } else {
-                res.render('enquete', {
-                    'imagesHTML': imagesHTML,
-                    'description': desc
-                });
+                renderEnquete(req, res, imagesHTML, desc);
             }
         });
     });
@@ -74,6 +71,21 @@ router.post('/description', function (req, res) {
     var desc = req.body.data;
     db.put('description', desc);
     res.send('OK');
+});
+
+router.post('/order', function (req, res) {
+    // TODO: Change to Sandstorm user auth
+    var userName = 'name';
+    db.get('orders', function (err, value) {
+        var orders = {};
+        if (!(err && err.notFound)) {
+            orders = JSON.parse(value);
+        }
+        orders[userName] = req.body.order;
+        db.put('orders', JSON.stringify(orders));
+        // FIXME: Change to finished page
+        res.redirect('/');
+    });
 });
 
 function addImageUrlToDB(url, callback) {
@@ -147,6 +159,20 @@ function generateImagesHTML(imageUrls, callback) {
         imagesHTML += sprintf('<div class="previewFrame"><img class="previewInList" src="%s"></div>', decodeURIComponent(imageUrls[i]));
     }
     callback(imagesHTML);
+}
+
+function renderEnquete(req, res, imagesHTML, desc) {
+    db.get('orders', function (err, value) {
+        var orders = {};
+        if (!(err && err.notFound)) {
+            orders = JSON.parse(value);
+        }
+        console.log(orders);
+        res.render('enquete', {
+            'imagesHTML': imagesHTML,
+            'description': desc
+        });
+    });
 }
 
 module.exports = router;

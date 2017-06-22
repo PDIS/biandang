@@ -4,12 +4,14 @@ $().ready(function () {
         $('#imageView').hide();
         $('#cover').hide();
     });
+    $(window).load(verticallyCenterImage);
+    $(window).resize(verticallyCenterImage);
 });
 
 function addPreviewImageEvents() {
-    $('.previewInList').click(function () {
+    $('.previewFrame').click(function () {
         var $view = $('#imageView');
-        $view.children('img').attr('src', $(this).attr('src'));
+        $view.children('img').attr('src', $(this).children('img').attr('src'));
         $view.show();
         $('#cover').show();
     });
@@ -27,5 +29,10 @@ function verticallyCenterImage(){
     }
 }
 
-$(window).load(verticallyCenterImage);
-$(window).resize(verticallyCenterImage);
+function isValidUpload() {
+    var isValid = $('#order').val().trim().length > 0;
+    if (!isValid) {
+        alert("你還沒點餐喔！");
+    }
+    return isValid;
+}

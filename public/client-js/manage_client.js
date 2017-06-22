@@ -10,38 +10,37 @@ $().ready(function () {
         deleteImage($(this));
         e.stopPropagation();
     });
-    $('#description').on('input', function() {
+    $('#description').on('input', function () {
         clearTimeout(timeoutId);
-        timeoutId = setTimeout(function() {
+        timeoutId = setTimeout(function () {
             // Runs 1 second (1000 ms) after the last change
             saveDescToDB();
         }, 1000);
     });
+    $(window).load(verticallyCenterImage);
+    $(window).resize(verticallyCenterImage);
 });
 
 function addPreviewImageEvents() {
-    $('.previewInList').click(function () {
+    $('.previewFrame').click(function () {
         var $view = $('#imageView');
-        $view.children('img').attr('src', $(this).attr('src'));
+        $view.children('img').attr('src', $(this).children('img').attr('src'));
         $view.show();
         $('#cover').show();
     });
 }
 
-function verticallyCenterImage(){
+function verticallyCenterImage() {
     var $img = $('#imageView img'),
         windowHeight = $(window).outerHeight();
 
-    if($img.height() < windowHeight){
+    if ($img.height() < windowHeight) {
         var delta = windowHeight - $img.height();
         $img.css('margin-top', (delta / 2) + 'px');
-    }else{
+    } else {
         $img.attr('style', '');
     }
 }
-
-$(window).load(verticallyCenterImage);
-$(window).resize(verticallyCenterImage);
 
 function addImageUrl() {
     var url = encodeURIComponent($('#image_url').val());
@@ -110,4 +109,12 @@ function saveDescToDB() {
             $('#saving').fadeOut(300);
         }, 2000);
     });
+}
+
+function isValidUpload() {
+    var isValid = $('#filesToUpload').val().trim().length > 0;
+    if (!isValid) {
+        alert("No file is selected!");
+    }
+    return isValid;
 }

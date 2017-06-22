@@ -17,7 +17,7 @@ html
             span ：
             input#image_url(size=50)
         p
-            form(enctype="multipart/form-data", method="post", action="/uploadImage")
+            form(enctype="multipart/form-data", method="post", action="/uploadImage", onsubmit="return isValidUpload()")
                 input#filesToUpload(type="file", name="filesToUpload", multiple="multiple")= __('add_image')
                 output#filesInfo
                 br
