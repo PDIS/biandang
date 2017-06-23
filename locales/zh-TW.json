@@ -9,5 +9,6 @@
 	"empty_url_hint": "請輸入圖片網址！",
 	"delete": "刪除",
 	"single_input": "單行回覆",
-	"send": "送出"
+	"send": "送出",
+	"last_order": "您點的是："
 }
