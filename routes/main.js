@@ -4,6 +4,7 @@ var sprintf = require("sprintf-js").sprintf;
 var levelup = require('levelup');
 var fs = require('fs');
 
+// FIXME: Change to /var path for grain independency
 var db = levelup('./mydb'); // Don't use var keyword to make it global
 
 router.get('/', function (req, res) {
@@ -13,8 +14,7 @@ router.get('/', function (req, res) {
             desc = value;
         }
         generateImagesHTML(null, function (imagesHTML) {
-            // TODO: Change to sandstorm permission check
-            if (true) {
+            if (isAdmin(req)) {
                 renderAdmin(req, res, imagesHTML, desc);
             } else {
                 renderEnquete(req, res, imagesHTML, desc);
@@ -82,6 +82,14 @@ router.post('/order', function (req, res) {
         // FIXME: Change to finished page
         res.redirect('/');
     });
+});
+
+router.post('/clearOrders', function (req, res) {
+   if (!isAdmin(req)) {
+       return;
+   }
+   db.del('orders');
+   res.send('ok');
 });
 
 function addImageUrlToDB(url, callback) {
@@ -164,15 +172,15 @@ function renderAdmin(req, res, imagesHTML, desc) {
             orders = JSON.parse(value);
         }
         var name = getUserName();
-        var order = res.__('order');
+        var myOrder = res.__('order');
         if (name in orders) {
-            order = res.__('last_order') + orders[name];
+            myOrder = res.__('last_order') + orders[name];
         }
-        console.log('or='+order);
         res.render('admin', {
             'imagesHTML': imagesHTML,
             'description': desc,
-            'order': order
+            'orders': orders,
+            'myOrder': myOrder
         });
     });
 }
@@ -184,21 +192,26 @@ function renderEnquete(req, res, imagesHTML, desc) {
             orders = JSON.parse(value);
         }
         var name = getUserName();
-        var order = res.__('order');
+        var myOrder = res.__('order');
         if (name in orders) {
-            order = res.__('last_order') + orders[name];
+            myOrder = res.__('last_order') + orders[name];
         }
         res.render('enquete', {
             'imagesHTML': imagesHTML,
             'description': desc,
-            'order': order
+            'myOrder': myOrder
         });
     });
 }
 
 function getUserName(req) {
     // TODO: Change to Sandstorm user auth
-    return 'name';
+    return 'name2';
+}
+
+function isAdmin(req) {
+    // TODO: Change to Sandstorm user auth
+    return true;
 }
 
 module.exports = router;

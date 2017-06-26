@@ -5,8 +5,10 @@ $().ready(function () {
         var index = $(this).index();
         $(this).addClass('active');
         $('.tabcontent').eq(index).show();
+        localStorage.setItem('last_tab', index);
     });
-    // FIXME: Remember last tab
-    $('.tablinks').eq(0).addClass('active');
-    $('.tabcontent').eq(0).show();
+    var lastTab = localStorage.getItem('last_tab');
+    if (!lastTab) lastTab = 0;
+    $('.tablinks').eq(lastTab).addClass('active');
+    $('.tabcontent').eq(lastTab).show();
 });

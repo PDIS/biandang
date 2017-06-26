@@ -7,7 +7,7 @@ div#enq
         img
     #cover
     form(method="post", action="/order", onsubmit="return isValidUpload()")
-        h2= order
+        h2= myOrder
         input#order(name="order",size=35)
         span &nbsp;
         input(type="submit", value="#{__('send')}")

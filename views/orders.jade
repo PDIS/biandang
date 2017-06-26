@@ -1,0 +1,9 @@
+script(src="client-js/orders_client.js")
+h2= __('orders')
+table(cellpadding=5)
+    - each order, name in orders
+        tr
+            td= name
+            td= order
+p
+    button(onclick="clearOrders()")= __('clear_orders')

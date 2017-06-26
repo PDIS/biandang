@@ -11,7 +11,8 @@
 	"single_input": "單行回覆",
 	"send": "點餐",
 	"manage": "管理菜單",
-	"result": "點餐清單",
+	"orders": "點餐清單",
 	"enquete": "自己訂餐",
-	"last_order": "您點的是："
+	"last_order": "您點的是：",
+	"clear_orders": "清除點餐資料"
 }
