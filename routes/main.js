@@ -4,8 +4,7 @@ var sprintf = require("sprintf-js").sprintf;
 var levelup = require('levelup');
 var fs = require('fs');
 
-// FIXME: Change to /var path for grain independency
-var db = levelup('./mydb'); // Don't use var keyword to make it global
+var db = levelup('/var/biandang_db');
 
 router.get('/', function (req, res) {
     db.get('description', function (err, value) {
@@ -23,6 +22,7 @@ router.get('/', function (req, res) {
     });
 });
 
+// FIXME: Change to /var directory for image storage
 router.post('/uploadImage', function (req, res) {
     if (!req.files)
         return res.status(400).send('No files were uploaded.');
