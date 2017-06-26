@@ -1,3 +1,13 @@
 {
-	"description": "description"
+	"description": "description",
+	"manage": "manage",
+	"result": "result",
+	"enquete": "enquete",
+	"menu": "menu",
+	"add_image_url": "add_image_url",
+	"add_image": "add_image",
+	"delete": "delete",
+	"single_input": "single_input",
+	"order": "order",
+	"send": "send"
 }

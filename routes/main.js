@@ -158,9 +158,22 @@ function generateImagesHTML(imageUrls, callback) {
 }
 
 function renderAdmin(req, res, imagesHTML, desc) {
-    res.render('admin', {
-        'imagesHTML': imagesHTML,
-        'description': desc
+    db.get('orders', function (err, value) {
+        var orders = {};
+        if (!(err && err.notFound)) {
+            orders = JSON.parse(value);
+        }
+        var name = getUserName();
+        var order = res.__('order');
+        if (name in orders) {
+            order = res.__('last_order') + orders[name];
+        }
+        console.log('or='+order);
+        res.render('admin', {
+            'imagesHTML': imagesHTML,
+            'description': desc,
+            'order': order
+        });
     });
 }
 

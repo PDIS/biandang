@@ -1,46 +1,44 @@
 var timeoutId;
 
 $().ready(function () {
-    addPreviewImageEvents();
-    $('#cover').click(function () {
-        $('#imageView').hide();
-        $('#cover').hide();
+    addManagePreviewImageEvents();
+    $('#man #cover').click(function () {
+        $('#man #imageView').hide();
+        $('#man #cover').hide();
     });
-    $('#deleteImage').click(function (e) {
+    $('#man #deleteImage').click(function (e) {
         deleteImage($(this));
         e.stopPropagation();
     });
-    $('#description').on('input', function () {
+    $('#man #description').on('input', function () {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(function () {
             // Runs 1 second (1000 ms) after the last change
             saveDescToDB();
         }, 1000);
     });
-    $(window).load(verticallyCenterImage);
-    $(window).resize(verticallyCenterImage);
 });
 
-function addPreviewImageEvents() {
-    $('.previewFrame').click(function () {
-        var $view = $('#imageView');
+function addManagePreviewImageEvents() {
+    $('#man .previewFrame').click(function () {
+        var $view = $('#man #imageView');
         $view.children('img').attr('src', $(this).children('img').attr('src'));
         $view.show();
-        $('#cover').show();
+        $('#man #cover').show();
     });
 }
 
-function verticallyCenterImage() {
-    var $img = $('#imageView img'),
-        windowHeight = $(window).outerHeight();
-
-    if ($img.height() < windowHeight) {
-        var delta = windowHeight - $img.height();
-        $img.css('margin-top', (delta / 2) + 'px');
-    } else {
-        $img.attr('style', '');
-    }
-}
+// function verticallyCenterImage() {
+//     var $img = $('#man #imageView img'),
+//         windowHeight = $(window).outerHeight();
+//
+//     if ($img.height() < windowHeight) {
+//         var delta = windowHeight - $img.height();
+//         $img.css('margin-top', (delta / 2) + 'px');
+//     } else {
+//         $img.attr('style', '');
+//     }
+// }
 
 function addImageUrl() {
     var url = encodeURIComponent($('#image_url').val());
@@ -54,7 +52,7 @@ function addImageUrl() {
     })
         .done(function (html) {
             $('#images').html(html);
-            addPreviewImageEvents();
+            addManagePreviewImageEvents();
         });
 }
 
@@ -70,7 +68,7 @@ function deleteImage($img) {
         $('#imageView').hide();
         $('#cover').hide();
         $('#images').html(html);
-        addPreviewImageEvents();
+        addManagePreviewImageEvents();
     });
 }
 
