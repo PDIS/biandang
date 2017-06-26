@@ -1,0 +1,19 @@
+doctype html
+html
+    head
+        script(src="lib/jquery-3.2.1.min.js")
+            script(src="client-js/admin_client.js")
+        link(href='/css/main.css', rel='stylesheet')
+        link(href='/css/admin.css', rel='stylesheet')
+    body
+        .tab
+            button.tablinks= __('manage')
+            button.tablinks= __('result')
+            button.tablinks= __('enquete')
+        #manage.tabcontent
+            include manage
+        #result.tabcontent
+            include result
+        #enquete.tabcontent
+            script(src="client-js/enquete_client.js")
+            include enquete_body

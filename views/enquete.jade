@@ -2,17 +2,6 @@ doctype html
 html
     head
         script(src="lib/jquery-3.2.1.min.js")
-        script(src="client-js/enquete_client.js")
         link(href='/css/main.css', rel='stylesheet')
     body
-        h2= __('menu')
-        div#images!= imagesHTML
-        div#description(cols=70,rows=8)!= description
-        #imageView
-            img
-        #cover
-        form(method="post", action="/order", onsubmit="return isValidUpload()")
-            h2= __('order')
-            input#order(name="order",size=35)
-            span &nbsp;
-            input(type="submit", value="#{__('send')}")
+        include enquete_body

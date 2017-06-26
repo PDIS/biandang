@@ -14,11 +14,8 @@ router.get('/', function(req, res) {
         }
         generateImagesHTML(null, function (imagesHTML) {
             // TODO: Change to sandstorm permission check
-            if (false) {
-                res.render('manage', {
-                    'imagesHTML': imagesHTML,
-                    'description': desc
-                });
+            if (true) {
+                renderAdmin(req, res, imagesHTML, desc);
             } else {
                 renderEnquete(req, res, imagesHTML, desc);
             }
@@ -161,13 +158,19 @@ function generateImagesHTML(imageUrls, callback) {
     callback(imagesHTML);
 }
 
+function renderAdmin(req, res, imagesHTML, desc) {
+    res.render('admin', {
+        'imagesHTML': imagesHTML,
+        'description': desc
+    });
+}
+
 function renderEnquete(req, res, imagesHTML, desc) {
     db.get('orders', function (err, value) {
         var orders = {};
         if (!(err && err.notFound)) {
             orders = JSON.parse(value);
         }
-        console.log(orders);
         res.render('enquete', {
             'imagesHTML': imagesHTML,
             'description': desc

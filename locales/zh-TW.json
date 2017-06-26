@@ -9,5 +9,8 @@
 	"empty_url_hint": "請輸入圖片網址！",
 	"delete": "刪除",
 	"single_input": "單行回覆",
-	"send": "送出"
+	"send": "送出",
+	"manage": "管理菜單",
+	"result": "點餐清單",
+	"enquete": "自己訂餐"
 }
