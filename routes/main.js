@@ -6,7 +6,7 @@ var fs = require('fs');
 
 var db = levelup('./mydb'); // Don't use var keyword to make it global
 
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
     db.get('description', function (err, value) {
         var desc = '';
         if (!(err && err.notFound)) {
@@ -32,13 +32,13 @@ router.post('/uploadImage', function (req, res) {
     if (!uploadedFile)
         return res.status(400).send('No files were uploaded.');
 
-    if (!fs.existsSync('public/uploaded')){
+    if (!fs.existsSync('public/uploaded')) {
         fs.mkdirSync('public/uploaded');
     }
 
     // Use the mv() method to place the file somewhere on your server
     var fileName = '/uploaded/' + Date.now() + '_' + uploadedFile.name;
-    uploadedFile.mv('public' + fileName, function(err) {
+    uploadedFile.mv('public' + fileName, function (err) {
         if (err)
             return res.status(500).send(err);
 
@@ -48,7 +48,7 @@ router.post('/uploadImage', function (req, res) {
     });
 });
 
-router.put('/imageUrl/:img', function(req, res, next) {
+router.put('/imageUrl/:img', function (req, res, next) {
     addImageUrlAndSendImageHTML(encodeURIComponent(req.params.img), res);
 });
 
@@ -71,8 +71,7 @@ router.post('/description', function (req, res) {
 });
 
 router.post('/order', function (req, res) {
-    // TODO: Change to Sandstorm user auth
-    var userName = 'name';
+    var userName = getUserName(req);
     db.get('orders', function (err, value) {
         var orders = {};
         if (!(err && err.notFound)) {
@@ -171,11 +170,22 @@ function renderEnquete(req, res, imagesHTML, desc) {
         if (!(err && err.notFound)) {
             orders = JSON.parse(value);
         }
+        var name = getUserName();
+        var order = res.__('order');
+        if (name in orders) {
+            order = res.__('last_order') + orders[name];
+        }
         res.render('enquete', {
             'imagesHTML': imagesHTML,
-            'description': desc
+            'description': desc,
+            'order': order
         });
     });
+}
+
+function getUserName(req) {
+    // TODO: Change to Sandstorm user auth
+    return 'name';
 }
 
 module.exports = router;
