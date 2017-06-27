@@ -51,8 +51,7 @@ function addImageUrl() {
         url: '/imageUrl/' + url
     })
         .done(function (html) {
-            $('#images').html(html);
-            addManagePreviewImageEvents();
+            window.location.href = '/';
         });
 }
 

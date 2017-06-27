@@ -22,7 +22,6 @@ router.get('/', function (req, res) {
     });
 });
 
-// FIXME: Change to /var directory for image storage
 router.post('/uploadImage', function (req, res) {
     if (!req.files)
         return res.status(400).send('No files were uploaded.');
@@ -79,7 +78,6 @@ router.post('/order', function (req, res) {
         }
         orders[userName] = req.body.order;
         db.put('orders', JSON.stringify(orders));
-        // FIXME: Change to finished page
         res.redirect('/');
     });
 });
@@ -171,7 +169,7 @@ function renderAdmin(req, res, imagesHTML, desc) {
         if (!(err && err.notFound)) {
             orders = JSON.parse(value);
         }
-        var name = getUserName();
+        var name = getUserName(req);
         var myOrder = res.__('order');
         if (name in orders) {
             myOrder = res.__('last_order') + orders[name];
@@ -191,7 +189,7 @@ function renderEnquete(req, res, imagesHTML, desc) {
         if (!(err && err.notFound)) {
             orders = JSON.parse(value);
         }
-        var name = getUserName();
+        var name = getUserName(req);
         var myOrder = res.__('order');
         if (name in orders) {
             myOrder = res.__('last_order') + orders[name];
@@ -205,13 +203,13 @@ function renderEnquete(req, res, imagesHTML, desc) {
 }
 
 function getUserName(req) {
-    // TODO: Change to Sandstorm user auth
-    return 'name2';
+    return decodeURIComponent(req.headers['x-sandstorm-username']);
 }
 
 function isAdmin(req) {
-    // TODO: Change to Sandstorm user auth
-    return true;
+    var permissions = req.headers['x-sandstorm-permissions'];
+    if (!permissions) return false;
+    return permissions.indexOf('modify') >= 0;
 }
 
 module.exports = router;
