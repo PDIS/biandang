@@ -28,5 +28,6 @@ set -euo pipefail
 
 # By default, this script does nothing.  You'll have to modify it as
 # appropriate for your application.
+export uv_os_homedir='/opt/app'
 cd /opt/app
 npm start
