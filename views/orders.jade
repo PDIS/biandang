@@ -1,5 +1,7 @@
 script(src="client-js/orders_client.js")
 h2= __('orders')
+p
+    button(onclick="refresh()")= __('refresh')
 table(cellpadding=5)
     - each order, name in orders
         tr

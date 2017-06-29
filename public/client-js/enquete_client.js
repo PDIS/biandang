@@ -4,8 +4,13 @@ $().ready(function () {
         $('#enq #imageView').hide();
         $('#enq #cover').hide();
     });
-    // $(window).load(verticallyCenterImage);
-    // $(window).resize(verticallyCenterImage);
+    $('#myName').on('change', function () {
+        localStorage.setItem('myName', $('#myName').val());
+    });
+    var myName = localStorage.getItem('myName');
+    if (myName) {
+        $('#myName').val(myName);
+    }
 });
 
 function addEnquetePreviewImageEvents() {
@@ -16,18 +21,6 @@ function addEnquetePreviewImageEvents() {
         $('#enq #cover').show();
     });
 }
-
-// function verticallyCenterImage(){
-//     var $img = $('#enq #imageView img'),
-//         windowHeight = $(window).outerHeight();
-//
-//     if($img.height() < windowHeight){
-//         var delta = windowHeight - $img.height();
-//         $img.css('margin-top', (delta / 2) + 'px');
-//     }else{
-//         $img.attr('style', '');
-//     }
-// }
 
 function isValidSendOrder() {
     var isValid = $('#enq #order').val().trim().length > 0;

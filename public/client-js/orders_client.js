@@ -8,3 +8,7 @@ function clearOrders() {
         });
     }
 }
+
+function refresh() {
+    window.location.href = '/';
+}

@@ -14,5 +14,6 @@
 	"orders": "點餐清單",
 	"enquete": "自己訂餐",
 	"last_order": "您點的是：",
-	"clear_orders": "清除點餐資料"
+	"clear_orders": "清除點餐資料",
+	"refresh": "重新整理"
 }
