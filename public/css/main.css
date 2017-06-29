@@ -23,13 +23,11 @@
     transform: translate(-50%, -50%);
     z-index: 10;
     display: none;
-    max-width: 90%;
-    max-height: 90%;
 }
 
 #imageView img {
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 80%;
+    max-height: 80%;
 }
 
 #cover {

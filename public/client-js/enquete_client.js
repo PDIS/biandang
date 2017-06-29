@@ -13,7 +13,6 @@ function addEnquetePreviewImageEvents() {
         var $view = $('#enq #imageView');
         $view.children('img').attr('src', $(this).children('img').attr('src'));
         $view.show();
-        console.log($('#enq'))
         $('#enq #cover').show();
     });
 }
@@ -30,7 +29,7 @@ function addEnquetePreviewImageEvents() {
 //     }
 // }
 
-function isValidUpload() {
+function isValidSendOrder() {
     var isValid = $('#enq #order').val().trim().length > 0;
     if (!isValid) {
         alert("你還沒點餐喔！");

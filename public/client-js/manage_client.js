@@ -10,7 +10,7 @@ $().ready(function () {
         deleteImage($(this));
         e.stopPropagation();
     });
-    $('#man #description').on('input', function () {
+    $('#man #edit_description').on('input', function () {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(function () {
             // Runs 1 second (1000 ms) after the last change
@@ -27,18 +27,6 @@ function addManagePreviewImageEvents() {
         $('#man #cover').show();
     });
 }
-
-// function verticallyCenterImage() {
-//     var $img = $('#man #imageView img'),
-//         windowHeight = $(window).outerHeight();
-//
-//     if ($img.height() < windowHeight) {
-//         var delta = windowHeight - $img.height();
-//         $img.css('margin-top', (delta / 2) + 'px');
-//     } else {
-//         $img.attr('style', '');
-//     }
-// }
 
 function addImageUrl() {
     var url = encodeURIComponent($('#image_url').val());
@@ -66,7 +54,7 @@ function deleteImage($img) {
     }).done(function (html) {
         $('#imageView').hide();
         $('#cover').hide();
-        $('#images').html(html);
+        $('.images').html(html);
         addManagePreviewImageEvents();
     });
 }
@@ -83,7 +71,7 @@ function saveDescToDB() {
         method: 'POST',
         url: '/description',
         data: {
-            data: $('#description').val()
+            data: $('#edit_description').val()
         }
     }).done(function (resp) {
         clearTimeout(savingId);
@@ -99,6 +87,7 @@ function saveDescToDB() {
                 $('#saving').fadeOut(300);
             }, 2000);
         }
+        $('div#description').html($('#edit_description').val());
     }).fail(function (err) {
         $('#saving').css('color', 'red');
         $('#saving').html('儲存錯誤！');

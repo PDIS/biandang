@@ -31,13 +31,13 @@ router.post('/uploadImage', function (req, res) {
     if (!uploadedFile)
         return res.status(400).send('No files were uploaded.');
 
-    if (!fs.existsSync('public/uploaded')) {
-        fs.mkdirSync('public/uploaded');
+    if (!fs.existsSync('/var/biandangImages')) {
+        fs.mkdirSync('/var/biandangImages');
     }
 
     // Use the mv() method to place the file somewhere on your server
-    var fileName = '/uploaded/' + Date.now() + '_' + uploadedFile.name;
-    uploadedFile.mv('public' + fileName, function (err) {
+    var fileName = '/biandangImages/' + Date.now() + '_' + uploadedFile.name;
+    uploadedFile.mv('/var' + fileName, function (err) {
         if (err)
             return res.status(500).send(err);
 
@@ -70,7 +70,10 @@ router.post('/description', function (req, res) {
 });
 
 router.post('/order', function (req, res) {
-    var userName = getUserName(req);
+    var userName = req.body.myName;
+    if (!userName) {
+        userName = getUserName(req);
+    }
     db.get('orders', function (err, value) {
         var orders = {};
         if (!(err && err.notFound)) {
@@ -178,6 +181,7 @@ function renderAdmin(req, res, imagesHTML, desc) {
             'imagesHTML': imagesHTML,
             'description': desc,
             'orders': orders,
+            'myName': name,
             'myOrder': myOrder
         });
     });
@@ -197,6 +201,7 @@ function renderEnquete(req, res, imagesHTML, desc) {
         res.render('enquete', {
             'imagesHTML': imagesHTML,
             'description': desc,
+            'myName': name,
             'myOrder': myOrder
         });
     });

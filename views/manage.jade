@@ -1,12 +1,12 @@
 script(src="client-js/manage_client.js")
 div#man
     h2= __('menu')
-    div#images!= imagesHTML
+    div.images!= imagesHTML
     p
         | 說明
         span#saving
         br
-        textarea#description(cols=70,rows=8)= description
+        textarea#edit_description(cols=70,rows=8)= description
     p
         button#add_image_url(onclick="addImageUrl()")= __('add_image_url')
         span ：

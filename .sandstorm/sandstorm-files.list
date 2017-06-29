@@ -561,6 +561,7 @@ opt/app/public/client-js/orders_client.js
 opt/app/public/css/admin.css
 opt/app/public/css/main.css
 opt/app/public/lib/jquery-3.2.1.min.js
+opt/app/public/stylesheets/style.css
 opt/app/routes/main.js
 opt/app/views/admin.jade
 opt/app/views/enquete.jade
