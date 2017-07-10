@@ -2,6 +2,7 @@ var timeoutId;
 
 $().ready(function () {
     addManagePreviewImageEvents();
+    addManZoomingEvent();
     $('#man #cover').click(function () {
         $('#man #imageView').hide();
         $('#man #cover').hide();
@@ -20,11 +21,11 @@ $().ready(function () {
 });
 
 function addManagePreviewImageEvents() {
-    $('#man .previewFrame').click(function () {
-        var $view = $('#man #imageView');
+    $('.previewFrame', '#man').click(function () {
+        var $view = $('#imageView', '#man');
         $view.children('img').attr('src', $(this).children('img').attr('src'));
         $view.show();
-        $('#man #cover').show();
+        $('#cover', '#man').show();
     });
 }
 
@@ -61,7 +62,8 @@ function deleteImage($img) {
 
 function saveDescToDB() {
     var savingId;
-    $('#saving').css('color', 'green')
+    var $saving = $('#saving');
+    $saving.css('color', 'green')
         .html('儲存中...')
         .show();
     savingId = setTimeout(function () {
@@ -81,16 +83,16 @@ function saveDescToDB() {
                 $('#saving').fadeOut(300);
             }, 2000);
         } else {
-            $('#saving').css('color', 'red');
-            $('#saving').html('儲存錯誤！');
+            $saving.css('color', 'red');
+            $saving.html('儲存錯誤！');
             setTimeout(function () {
                 $('#saving').fadeOut(300);
             }, 2000);
         }
         $('div#description').html($('#edit_description').val());
     }).fail(function (err) {
-        $('#saving').css('color', 'red');
-        $('#saving').html('儲存錯誤！');
+        $saving.css('color', 'red');
+        $saving.html('儲存錯誤！');
         setTimeout(function () {
             $('#saving').fadeOut(300);
         }, 2000);
@@ -103,4 +105,12 @@ function isValidUpload() {
         alert("No file is selected!");
     }
     return isValid;
+}
+
+function addManZoomingEvent() {
+    var $div = $('#imageView', '#man');
+    $div.on('click', function (view) {
+        $div.toggleClass('normal zoomed');
+        $div.children('img').toggleClass('zoomed');
+    });
 }

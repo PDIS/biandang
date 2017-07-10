@@ -85,6 +85,21 @@ router.post('/order', function (req, res) {
     });
 });
 
+router.get('/getMyOrder', function (req, res) {
+    db.get('orders', function (err, value) {
+        var orders = {};
+        if (!(err && err.notFound)) {
+            orders = JSON.parse(value);
+        }
+        var name = req.query.name;
+        if (orders[name]) {
+            res.send(orders[name]);
+        } else {
+            res.send('');
+        }
+    });
+});
+
 router.post('/clearOrders', function (req, res) {
    if (!isAdmin(req)) {
        return;
@@ -194,6 +209,9 @@ function renderEnquete(req, res, imagesHTML, desc) {
             orders = JSON.parse(value);
         }
         var name = getUserName(req);
+        if (name == 'Anonymous User') {
+            name = '';
+        }
         var myOrder = res.__('order');
         if (name in orders) {
             myOrder = res.__('last_order') + orders[name];

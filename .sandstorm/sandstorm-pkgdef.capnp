@@ -9,7 +9,7 @@ const pkgdef :Spk.PackageDefinition = (
   # The package definition. Note that the spk tool looks specifically for the
   # "pkgdef" constant.
 
-  id = "upcmp5j10r4x8j7kdfram8xx41ujvqjw0hq8ed2y72hky552znk0",
+  id = "c70m9m4z44k26kr3z1f18ckt90rugtmcsdw0shf9m041usgrvufh",
   # Your app ID is actually its public key. The private key was placed in
   # your keyring. All updates must be signed with the same key.
 
@@ -17,14 +17,14 @@ const pkgdef :Spk.PackageDefinition = (
     # This manifest is included in your app package to tell Sandstorm
     # about your app.
 
-    appVersion = 201703100,  # Increment this for every release.
+    appVersion = 201706290,  # Increment this for every release.
     appTitle = (defaultText = "Biandang"),
-    appMarketingVersion = (defaultText = "2017.03.10.0"),
+    appMarketingVersion = (defaultText = "2017.06.29.0"),
 
     actions = [
       # Define your "new document" handlers here.
-      ( title = (defaultText = "New Menu"),
-        nounPhrase = (defaultText = "menu"),
+      ( title = (defaultText = "新菜單"),
+        nounPhrase = (defaultText = "菜單"),
         command = .myContinueCommand
         # The command to run when starting for the first time. (".myCommand"
         # is just a constant defined at the bottom of the file.)
@@ -40,22 +40,22 @@ const pkgdef :Spk.PackageDefinition = (
 
 
     metadata = (
-#      icons = (
-#        appGrid = (png = (dpi1x = embed "app-graphics/linksholder-128.png")),
-#        grain = (png = (dpi1x = embed "app-graphics/linksholder-24.png",
-#                              dpi2x = embed "app-graphics/linksholder-48.png")),
-#        market = (png = (dpi1x = embed "app-graphics/linksholder-150.png")),
-#      ),
+      icons = (
+        appGrid = (png = (dpi1x = embed "app-graphics/biandang-128.png")),
+        grain = (png = (dpi1x = embed "app-graphics/biandang-32.png",
+                              dpi2x = embed "app-graphics/biandang-48.png")),
+        market = (png = (dpi1x = embed "app-graphics/biandang-128.png")),
+      ),
 
-      website = "https://github.com/PDIS/ethercalc/tree/sandstorm-linksholder",
-      codeUrl = "https://github.com/PDIS/ethercalc/tree/sandstorm-linksholder",
-      license = (openSource = cpal),
-      categories = [office, productivity],
+      website = "https://github.com/PDIS/biandang",
+      codeUrl = "https://github.com/PDIS/biandang",
+      license = (openSource = apache2),
+      categories = [productivity],
 
       author = (
         contactEmail = "urakagi@gmail.com",
 #        pgpSignature = embed "pgp-signature",
-        upstreamAuthor = "Audrey Tang (EtherCalc) & ETBlue (Hackfoldr)",
+#        upstreamAuthor = "Audrey Tang (EtherCalc) & ETBlue (Hackfoldr)",
       ),
 #      pgpKeyring = embed "pgp-keyring",
 

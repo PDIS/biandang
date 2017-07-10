@@ -41,6 +41,7 @@ app.use('/uploadImage', main);
 app.use('/imageUrl', main);
 app.use('/description', main);
 app.use('/order', main);
+app.use('/getMyOrder', main);
 app.use('/clearOrders', main);
 
 // catch 404 and forward to error handler
