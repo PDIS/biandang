@@ -47,8 +47,8 @@ function isValidSendOrder() {
 
 function addEnqZoomingEvent() {
     var $div = $('#imageView', '#enq');
-    $div.on('click', function (view) {
+    $div.children('img').on('click', function (view) {
         $div.toggleClass('normal zoomed');
-        $div.children('img').toggleClass('zoomed');
+        $div.children('img').toggleClass('normal zoomed');
     });
 }

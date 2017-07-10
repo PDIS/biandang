@@ -3,15 +3,15 @@ var timeoutId;
 $().ready(function () {
     addManagePreviewImageEvents();
     addManZoomingEvent();
-    $('#man #cover').click(function () {
-        $('#man #imageView').hide();
-        $('#man #cover').hide();
+    $('#cover', '#man').click(function () {
+        $('#imageView', '#man').hide();
+        $('#cover', '#man').hide();
     });
-    $('#man #deleteImage').click(function (e) {
+    $('#deleteImage', '#man').click(function (e) {
         deleteImage($(this));
         e.stopPropagation();
     });
-    $('#man #edit_description').on('input', function () {
+    $('#edit_description', '#man').on('input', function () {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(function () {
             // Runs 1 second (1000 ms) after the last change
@@ -109,8 +109,8 @@ function isValidUpload() {
 
 function addManZoomingEvent() {
     var $div = $('#imageView', '#man');
-    $div.on('click', function (view) {
+    $div.children('img').on('click', function (view) {
         $div.toggleClass('normal zoomed');
-        $div.children('img').toggleClass('zoomed');
+        $div.children('img').toggleClass('normal zoomed');
     });
 }

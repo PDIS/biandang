@@ -18,9 +18,11 @@ div#man
             br
             input(type="submit", value="#{__('add_image')}")#add_image
     #imageView.normal
-        img
+        img.normal
     #cover
         a#deleteImage(href="javascript:void(0);")= __('delete')
+        span &emsp;
+        a#close(href="javascript:void(0);")= __('close')
     p
         form
             input(type="radio", name="mode", id="singleInputMode", value="singleInput", checked="checked")
