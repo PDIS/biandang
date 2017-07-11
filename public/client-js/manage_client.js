@@ -99,14 +99,6 @@ function saveDescToDB() {
     });
 }
 
-function isValidUpload() {
-    var isValid = $('#filesToUpload').val().trim().length > 0;
-    if (!isValid) {
-        alert("No file is selected!");
-    }
-    return isValid;
-}
-
 function addManZoomingEvent() {
     var $div = $('#imageView', '#man');
     $div.children('img').on('click', function (view) {
