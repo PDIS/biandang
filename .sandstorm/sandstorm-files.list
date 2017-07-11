@@ -561,9 +561,14 @@ opt/app/public/client-js/orders_client.js
 opt/app/public/css/admin.css
 opt/app/public/css/main.css
 opt/app/public/lib/jquery-3.2.1.min.js
+opt/app/public/lib/jquery-ui-1.12.1/images/ui-icons_444444_256x240.png
+opt/app/public/lib/jquery-ui-1.12.1/images/ui-icons_777777_256x240.png
+opt/app/public/lib/jquery-ui-1.12.1/jquery-ui.min.css
+opt/app/public/lib/jquery-ui-1.12.1/jquery-ui.min.js
 opt/app/public/stylesheets/style.css
 opt/app/routes/main.js
 opt/app/views/admin.jade
+opt/app/views/commonHead.jade
 opt/app/views/enquete.jade
 opt/app/views/enquete_body.jade
 opt/app/views/error.jade

@@ -1,12 +1,31 @@
+$().ready(function () {
+    $('#confirm-clear').dialog({
+        autoOpen: false,
+        resizable: false,
+        height: "auto",
+        width: 400,
+        modal: true
+    });
+});
+
 function clearOrders() {
-    if (confirm('真的要清除點餐資料？一經清除便無法復原！')) {
-        $.ajax({
-            method: 'POST',
-            url: '/clearOrders'
-        }).done(function () {
-            window.location.href = '/';
-        });
-    }
+    $('#confirm-clear').dialog({
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    method: 'POST',
+                    url: '/clearOrders'
+                }).done(function () {
+                    window.location.href = '/';
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+    $('#confirm-clear').dialog('open');
 }
 
 function refresh() {

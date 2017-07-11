@@ -1,3 +1,6 @@
+@import url(//fonts.googleapis.com/earlyaccess/cwtexming.css);
+@import url(//fonts.googleapis.com/earlyaccess/cwtexhei.css);
+
 .previewFrame {
     display: inline-block;
     text-align: center;
@@ -72,3 +75,29 @@
 #saving {
     color: green;
 }
+
+h2 {
+    border-bottom: 4px solid #57c4d0;
+    font-family: 'cwTeXMing', serif;
+    display: inline-block;
+    margin: 0;
+}
+
+.title {
+    border-bottom: 1px solid #dedede;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+* {
+    font-family: 'cwTeXHei', serif;
+}
+
+#man textarea, #man input, #enq input {
+    font-family: 'cwTeXHei', serif; !important;
+}
+
+.dialog {
+    display: none;
+}
+

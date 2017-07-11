@@ -1,18 +1,21 @@
 doctype html
 html
     head
-        script(src="lib/jquery-3.2.1.min.js")
+        include commonHead
         script(src="client-js/admin_client.js")
-        link(href='/css/main.css', rel='stylesheet')
         link(href='/css/admin.css', rel='stylesheet')
     body
-        .tab
-            button.tablinks= __('manage')
-            button.tablinks= __('orders')
-            button.tablinks= __('enquete')
-        #manage.tabcontent
-            include manage
-        #result.tabcontent
-            include orders
-        #enquete.tabcontent
-            include enquete_body
+        #tabs
+            ul
+                li
+                    a(href="#manage")= __('manage')
+                li
+                    a(href="#orders")= __('orders')
+                li
+                    a(href="#enquete")= __('enquete')
+            #manage
+                include manage
+            #orders
+                include orders
+            #enquete
+                include enquete_body

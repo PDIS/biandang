@@ -18,6 +18,13 @@ $().ready(function () {
             saveDescToDB();
         }, 1000);
     });
+    $('#confirm-delete').dialog({
+        autoOpen: false,
+        resizable: false,
+        height: "auto",
+        width: 400,
+        modal: true
+    });
 });
 
 function addManagePreviewImageEvents() {
@@ -45,19 +52,27 @@ function addImageUrl() {
 }
 
 function deleteImage($img) {
-    if (!confirm('確定要刪除圖片？')) {
-        return;
-    }
-    var imgUrl = encodeURIComponent($('#imageView').children('img').attr('src'));
-    $.ajax({
-        method: 'DELETE',
-        url: '/imageUrl/' + imgUrl
-    }).done(function (html) {
-        $('#imageView').hide();
-        $('#cover').hide();
-        $('.images').html(html);
-        addManagePreviewImageEvents();
+    $('#confirm-delete').dialog({
+        buttons: {
+            "Yes": function () {
+                var imgUrl = encodeURIComponent($('#imageView').children('img').attr('src'));
+                $.ajax({
+                    method: 'DELETE',
+                    url: '/imageUrl/' + imgUrl
+                }).done(function (html) {
+                    $('#imageView').hide();
+                    $('#cover').hide();
+                    $('.images').html(html);
+                    addManagePreviewImageEvents();
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        }
     });
+    $('#confirm-delete').dialog('open');
 }
 
 function saveDescToDB() {

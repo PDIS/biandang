@@ -1,15 +1,16 @@
 script(src="client-js/manage_client.js")
 div#man
-    h2= __('menu')
+    .title
+        h2= __('menu')
     div.images!= imagesHTML
     p
-        | 說明
-        span#saving
-        br
+        .title
+            h2= __('description')
+                span#saving(style="font-family: 'cwTeXMing', serif;")
         textarea#edit_description(cols=70,rows=8)= description
     p
         button#uploadFile(onclick="$('#filesToUpload').trigger('click')")= __('add_image')
-        span(style="padding-left:3px; padding-right: 3px;") or
+        span(style="padding-left:3px; padding-right: 3px;")
         button#add_image_url(onclick="addImageUrl()")= __('add_image_url')
         span ：
         input#image_url(size=40)
@@ -25,3 +26,8 @@ div#man
         form
             input(type="radio", name="mode", id="singleInputMode", value="singleInput", checked="checked")
             label(for="singleInputMode")= __('single_input')
+
+    div#confirm-delete(title="#{__('confirm_delete_image')}")
+        p
+            span(class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;")
+            span= __('delete_image_hint')

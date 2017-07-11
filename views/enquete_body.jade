@@ -1,16 +1,28 @@
 script(src="client-js/enquete_client.js")
 div#enq
-    h2= __('menu')
+    .title
+        h2= __('menu')
     div.images!= imagesHTML
-    div#description(cols=70,rows=8)!= description
+    .title
+        h2= __('description')
+    div#description!= description
+    p
+        form(method="post", action="/order", onsubmit="return isValidSendOrder()")
+            .title
+                h2= __('send')
+            p(style="font-size: 130%;")
+                input#myName(placeholder="#{__('name_hint')}", name="myName", size=15, value="#{myName}")
+                span ，
+                span#myOrder= myOrder
+            p(style="font-size: 110%;")
+                input#order(name="order" size=35 placeholder="#{__('order_hint')}")
+            p
+                input#send-order(type="submit", value="#{__('send')}")
+
     #imageView.normal
         img.normal
     #cover
         a#close(href="javascript:void(0);")= __('close')
-    form(method="post", action="/order", onsubmit="return isValidSendOrder()")
-        h2
-            input#myName(placeholder="請輸入名字", name="myName", size=10, value="#{myName}")
-            span#myOrder= myOrder
-        input#order(name="order",size=35)
-        span &nbsp;
-        input#send-order(type="submit", value="#{__('send')}")
+
+    #no-name-hint.dialog= __('no_name_hint')
+    #no-order-hint.dialog= __('no_order_hint')
