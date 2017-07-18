@@ -1,5 +1,6 @@
 @import url(//fonts.googleapis.com/earlyaccess/cwtexming.css);
 @import url(//fonts.googleapis.com/earlyaccess/cwtexhei.css);
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
 
 .previewFrame {
     display: inline-block;
@@ -90,11 +91,11 @@ h2 {
 }
 
 * {
-    font-family: 'cwTeXHei', serif;
+    font-family: 'Noto Sans TC', sans-serif;
 }
 
-#man textarea, #man input, #enq input {
-    font-family: 'cwTeXHei', serif; !important;
+#man textarea, #man input, #enq input, #man button, #enq button {
+    font-family: 'Noto Sans TC', sans-serif; !important;
 }
 
 .dialog {

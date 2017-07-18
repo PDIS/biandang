@@ -5,7 +5,7 @@ table(cellpadding=5)
     - each order, name in orders
         tr
             td= name
-            td= order
+            td(contenteditable)= order
 p
     button(onclick="refresh()")= __('refresh')
     span &emsp;

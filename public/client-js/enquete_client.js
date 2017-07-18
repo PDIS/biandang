@@ -22,7 +22,7 @@ $().ready(function () {
             });
         }
     }
-    if (myName.length > 0) {
+    if (myName != null && myName.length > 0) {
         $myName.attr('size', myName.length);
     }
     $('#send-order').button();
