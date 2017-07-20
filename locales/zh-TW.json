@@ -24,5 +24,9 @@
   "order_hint": "請輸入您要點的餐",
   "name_hint": "請輸入名字",
   "no_name_hint": "請輸入您的名字！",
-  "no_order_hint": "您還沒點餐喔！"
+  "no_order_hint": "您還沒點餐喔！",
+  "prices": "價目表",
+  "item": "項目",
+  "quantity": "數量",
+  "price": "價格"
 }

@@ -1,11 +1,25 @@
 script(src="client-js/orders_client.js")
-.title
-    h2= __('orders')
-table(cellpadding=5)
-    - each order, name in orders
+div(style="display: inline-block;")
+    .title
+        h2= __('orders')
+    table(cellpadding=5)
+        - each order, name in orders
+            tr
+                td= name
+                td.order(contenteditable)= order
+div(style="display: inline-block; vertical-align: top; margin-left: 70px;")
+    .title
+        h2= __('prices')
+    table(border=1)
         tr
-            td= name
-            td(contenteditable)= order
+            th= __('item')
+            th= __('quantity')
+            th= __('price')
+        - each menu in orderColletion
+            tr
+                td.menu(contenteditable)= menu.name
+                td.quantity(contenteditable)= menu.quantity
+                td.price(contenteditable)= menu.price
 p
     button(onclick="refresh()")= __('refresh')
     span &emsp;

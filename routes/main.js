@@ -101,11 +101,15 @@ router.get('/getMyOrder', function (req, res) {
 });
 
 router.post('/clearOrders', function (req, res) {
-   if (!isAdmin(req)) {
-       return;
-   }
-   db.del('orders');
-   res.send('ok');
+    if (!isAdmin(req)) {
+        return;
+    }
+    db.del('orders');
+    res.send('ok');
+});
+
+router.post('/setMenu', function (req, res) {
+    // TODO
 });
 
 function addImageUrlToDB(url, callback) {
@@ -192,12 +196,15 @@ function renderAdmin(req, res, imagesHTML, desc) {
         if (name in orders) {
             myOrder = res.__('last_order') + orders[name];
         }
-        res.render('admin', {
-            'imagesHTML': imagesHTML,
-            'description': desc,
-            'orders': orders,
-            'myName': name,
-            'myOrder': myOrder
+        settlePrices(orders, function (orderColletion) {
+            res.render('admin', {
+                'imagesHTML': imagesHTML,
+                'description': desc,
+                'orders': orders,
+                'orderColletion': orderColletion,
+                'myName': name,
+                'myOrder': myOrder
+            });
         });
     });
 }
@@ -223,6 +230,43 @@ function renderEnquete(req, res, imagesHTML, desc) {
             'myOrder': myOrder
         });
     });
+}
+
+function settlePrices(orders, callback) {
+    db.get('prices', function (err1, value1) {
+        var orderColletion = [];
+        if (!(err1 && err1.notFound)) {
+            orderColletion = JSON.parse(value1);
+        }
+        // Check unpriced items
+        var unpriced = [];
+        for (var key in orders) {
+            var order = orders[key];
+            var found = false;
+            for (var menu in orderColletion) {
+                if (order.indexOf(menu.name) >= 0) {
+                    menu.quantity++;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                orderColletion.push({
+                    name: order,
+                    quantity: 1,
+                    price: ''
+                });
+            }
+        }
+        if (callback) {
+            callback(orderColletion);
+        }
+    });
+}
+
+function getPrice(order, orderColletion) {
+
+    return null;
 }
 
 function getUserName(req) {
