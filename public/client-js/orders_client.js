@@ -12,7 +12,8 @@ $().ready(function () {
 });
 
 function clearOrders() {
-    $('#confirm-clear').dialog({
+    var $dialog = $('#confirm-clear');
+    $dialog.dialog({
         buttons: {
             "Yes": function () {
                 $.ajax({
@@ -28,7 +29,21 @@ function clearOrders() {
             }
         }
     });
-    $('#confirm-clear').dialog('open');
+    $dialog.dialog('open');
+}
+
+function deleteSelectedOrders() {
+    $('.delete-order').each(function (i, ele) {
+        if ($(ele).is(':checked')) {
+            var name = $(ele).parent().next('td').text();
+            $.ajax({
+                method: 'DELETE',
+                url: 'order/' + encodeURIComponent(name)
+            }).done(function () {
+                window.location.href = '/';
+            });
+        }
+    });
 }
 
 function refresh() {
@@ -36,6 +51,14 @@ function refresh() {
 }
 
 function setupOrderList() {
+    $('.paid').on('change', function (ev) {
+        var $e = $(ev.target);
+        var name = $e.parent().siblings('td').eq(1).text();
+        $.ajax({
+            method: $e.is(':checked') ? 'PUT' : 'DELETE',
+            url: 'pay/' + encodeURIComponent(name)
+        });
+    });
     var $td = $('td.order[contenteditable]');
     $td.on('focus', function (ev) {
         var $e = $(ev.target);

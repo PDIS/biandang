@@ -28,5 +28,9 @@
   "prices": "價目表",
   "item": "項目",
   "quantity": "數量",
-  "price": "價格"
+  "price": "價格",
+  "delete_selected_orders": "刪除已選訂單",
+  "name": "名字",
+  "ordered": "點餐",
+  "paid": "已付款"
 }

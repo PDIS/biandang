@@ -79,7 +79,33 @@ router.post('/order', function (req, res) {
         if (!(err && err.notFound)) {
             orders = JSON.parse(value);
         }
-        orders[userName] = req.body.order;
+        orders[userName] = { order: req.body.order, paid: false };
+        db.put('orders', JSON.stringify(orders));
+        res.redirect('/');
+    });
+});
+
+router.delete('/pay/:userName', function (req, res) {
+    var userName = decodeURIComponent(req.params.userName);
+    console.log("name="+userName);
+});
+
+router.put('/pay/:userName', function (req, res) {
+    var userName = decodeURIComponent(req.params.userName);
+    console.log("name="+userName);
+});
+
+router.delete('/order/:userName', function (req, res) {
+    var userName = decodeURIComponent(req.params.userName);
+    if (!userName) {
+        return;
+    }
+    db.get('orders', function (err, value) {
+        var orders = {};
+        if (!(err && err.notFound)) {
+            orders = JSON.parse(value);
+        }
+        delete orders[userName];
         db.put('orders', JSON.stringify(orders));
         res.redirect('/');
     });
@@ -93,7 +119,12 @@ router.get('/getMyOrder', function (req, res) {
         }
         var name = req.query.name;
         if (orders[name]) {
-            res.send(orders[name]);
+            // Older version
+            if (typeof orders[name] === 'string') {
+                res.send(orders[name]);
+            } else {
+                res.send(orders[name].order);
+            }
         } else {
             res.send('');
         }
@@ -194,7 +225,11 @@ function renderAdmin(req, res, imagesHTML, desc) {
         var name = getUserName(req);
         var myOrder = res.__('order');
         if (name in orders) {
-            myOrder = res.__('last_order') + orders[name];
+            if (typeof orders[name] === 'string') {
+                myOrder = res.__('last_order') + orders[name];
+            } else {
+                myOrder = res.__('last_order') + orders[name].order;
+            }
         }
         settlePrices(orders, function (orderColletion) {
             res.render('admin', {
@@ -221,7 +256,11 @@ function renderEnquete(req, res, imagesHTML, desc) {
         }
         var myOrder = res.__('order');
         if (name in orders) {
-            myOrder = res.__('last_order') + orders[name];
+            if (typeof orders[name] === 'string') {
+                myOrder = res.__('last_order') + orders[name];
+            } else {
+                myOrder = res.__('last_order') + orders[name].order;
+            }
         }
         res.render('enquete', {
             'imagesHTML': imagesHTML,
