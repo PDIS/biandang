@@ -87,12 +87,36 @@ router.post('/order', function (req, res) {
 
 router.delete('/pay/:userName', function (req, res) {
     var userName = decodeURIComponent(req.params.userName);
-    console.log("name="+userName);
+    db.get('orders', function (err, value) {
+        var orders = {};
+        if (!(err && err.notFound)) {
+            orders = JSON.parse(value);
+        }
+        if (typeof orders[userName] === 'string') {
+            orders[userName] = { order: orders[userName], paid: false};
+        } else {
+            orders[userName].paid = false;
+        }
+        db.put('orders', JSON.stringify(orders));
+        res.send('ok');
+    });
 });
 
 router.put('/pay/:userName', function (req, res) {
     var userName = decodeURIComponent(req.params.userName);
-    console.log("name="+userName);
+    db.get('orders', function (err, value) {
+        var orders = {};
+        if (!(err && err.notFound)) {
+            orders = JSON.parse(value);
+        }
+        if (typeof orders[userName] === 'string') {
+            orders[userName] = { order: orders[userName], paid: true};
+        } else {
+            orders[userName].paid = true;
+        }
+        db.put('orders', JSON.stringify(orders));
+        res.send('ok');
+    });
 });
 
 router.delete('/order/:userName', function (req, res) {
@@ -281,6 +305,9 @@ function settlePrices(orders, callback) {
         var unpriced = [];
         for (var key in orders) {
             var order = orders[key];
+            if (!(typeof order === 'string')) {
+                order = order.order;
+            }
             var found = false;
             for (var menu in orderColletion) {
                 if (order.indexOf(menu.name) >= 0) {
