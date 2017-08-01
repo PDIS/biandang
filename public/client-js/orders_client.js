@@ -77,7 +77,9 @@ function setupOrderList() {
                 getPriceList: true
             }
         }).done(function (resp) {
-            $('#prices').html(resp);
+            var $table = $('#prices');
+            $table.replaceWith(resp);
+            setupPriceList();
         });
     }).on('keypress', function (ev) {
         var $e = $(ev.target);

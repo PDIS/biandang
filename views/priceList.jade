@@ -1,9 +1,13 @@
-tr
-    th= __('item')
-    th= __('quantity')
-    th= __('price')
-- each menu in orderCollection
+table#prices(border=1)
     tr
-        td.menu(contenteditable)= menu.name
-        td.quantity(contenteditable)= menu.quantity
-        td.price(contenteditable)= menu.price
+        th= __('item')
+        th= __('quantity')
+        th= __('price')
+    - each menu in orderCollection
+        tr
+            td.menu= menu.name
+            td.quantity= menu.quantity
+            td.price(contenteditable="true")= menu.price
+p
+    span= __('total')
+    span= total

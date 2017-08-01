@@ -34,5 +34,6 @@
   "ordered": "點餐",
   "paid": "已付款",
   "back_to_enquete": "回到點餐頁",
-  "order_success": "訂餐完成"
+  "order_success": "訂餐完成",
+  "total": "總價："
 }

@@ -83,8 +83,8 @@ router.post('/order', function (req, res) {
         orders[userName] = {order: order, paid: false};
         db.put('orders', JSON.stringify(orders));
         if (req.body.getPriceList) {
-            settlePrices(orders, function (orderCollection) {
-                res.render('priceList', {orderCollection: orderCollection});
+            settlePrices(orders, function (orderCollection, total) {
+                res.render('priceList', {orderCollection: orderCollection, total: total});
             });
         } else {
             res.render('done', {lastOrder: order});
@@ -289,12 +289,13 @@ function renderAdmin(req, res, imagesHTML, desc) {
                 myOrder = res.__('last_order') + orders[name].order;
             }
         }
-        settlePrices(orders, function (orderCollection) {
+        settlePrices(orders, function (orderCollection, total) {
             res.render('admin', {
                 'imagesHTML': imagesHTML,
                 'description': desc,
                 'orders': orders,
                 'orderCollection': orderCollection,
+                'total': total,
                 'myName': name,
                 'myOrder': myOrder
             });
@@ -344,6 +345,7 @@ function settlePrices(orders, callback) {
                 price: p.price
             });
         }
+        var total = 0;
         for (var key in orders) {
             var order = orders[key];
             if (!(typeof order === 'string')) {
@@ -366,8 +368,14 @@ function settlePrices(orders, callback) {
                 });
             }
         }
+        for (var i in orderCollection) {
+            var o = orderCollection[i];
+            if (o.price != '') {
+                total += o.quantity * o.price;
+            }
+        }
         if (callback) {
-            callback(orderCollection);
+            callback(orderCollection, total);
         }
     });
 }

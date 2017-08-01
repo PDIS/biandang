@@ -23,8 +23,7 @@ div(style="display: inline-block;")
 div(style="display: inline-block; vertical-align: top; margin-left: 70px;")
     .title
         h2= __('prices')
-    table#prices(border=1)
-        include priceList
+    include priceList
 p
     button(onclick="refresh()")= __('refresh')
     span &emsp;
