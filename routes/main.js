@@ -79,9 +79,16 @@ router.post('/order', function (req, res) {
         if (!(err && err.notFound)) {
             orders = JSON.parse(value);
         }
-        orders[userName] = { order: req.body.order, paid: false };
+        var order = req.body.order;
+        orders[userName] = {order: order, paid: false};
         db.put('orders', JSON.stringify(orders));
-        res.redirect('/');
+        if (req.body.getPriceList) {
+            settlePrices(orders, function (orderCollection) {
+                res.render('priceList', {orderCollection: orderCollection});
+            });
+        } else {
+            res.render('done', {lastOrder: order});
+        }
     });
 });
 
@@ -93,7 +100,7 @@ router.delete('/pay/:userName', function (req, res) {
             orders = JSON.parse(value);
         }
         if (typeof orders[userName] === 'string') {
-            orders[userName] = { order: orders[userName], paid: false};
+            orders[userName] = {order: orders[userName], paid: false};
         } else {
             orders[userName].paid = false;
         }
@@ -110,7 +117,7 @@ router.put('/pay/:userName', function (req, res) {
             orders = JSON.parse(value);
         }
         if (typeof orders[userName] === 'string') {
-            orders[userName] = { order: orders[userName], paid: true};
+            orders[userName] = {order: orders[userName], paid: true};
         } else {
             orders[userName].paid = true;
         }
@@ -165,6 +172,33 @@ router.post('/clearOrders', function (req, res) {
 
 router.post('/setMenu', function (req, res) {
     // TODO
+});
+
+router.post('/setPrice', function (req, res) {
+    var menu = req.body.menu;
+    var price = req.body.price;
+    db.get('prices', function (err1, value1) {
+        var orderCollection = [];
+        if (!(err1 && err1.notFound)) {
+            orderCollection = JSON.parse(value1);
+        }
+        var found = false;
+        for (var k in orderCollection) {
+            if (orderCollection[k].name == menu) {
+                orderCollection[k].price = price;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            orderCollection.push({
+                name: menu,
+                price: price
+            });
+        }
+        db.put('prices', JSON.stringify(orderCollection));
+        res.send('ok');
+    });
 });
 
 function addImageUrlToDB(url, callback) {
@@ -255,12 +289,12 @@ function renderAdmin(req, res, imagesHTML, desc) {
                 myOrder = res.__('last_order') + orders[name].order;
             }
         }
-        settlePrices(orders, function (orderColletion) {
+        settlePrices(orders, function (orderCollection) {
             res.render('admin', {
                 'imagesHTML': imagesHTML,
                 'description': desc,
                 'orders': orders,
-                'orderColletion': orderColletion,
+                'orderCollection': orderCollection,
                 'myName': name,
                 'myOrder': myOrder
             });
@@ -297,19 +331,27 @@ function renderEnquete(req, res, imagesHTML, desc) {
 
 function settlePrices(orders, callback) {
     db.get('prices', function (err1, value1) {
-        var orderColletion = [];
+        var orderCollection = [];
+        var priceList = [];
         if (!(err1 && err1.notFound)) {
-            orderColletion = JSON.parse(value1);
+            priceList = JSON.parse(value1);
         }
-        // Check unpriced items
-        var unpriced = [];
+        for (var i in priceList) {
+            var p = priceList[i];
+            orderCollection.push({
+                name: p.name,
+                quantity: 0,
+                price: p.price
+            });
+        }
         for (var key in orders) {
             var order = orders[key];
             if (!(typeof order === 'string')) {
                 order = order.order;
             }
             var found = false;
-            for (var menu in orderColletion) {
+            for (var k in orderCollection) {
+                var menu = orderCollection[k];
                 if (order.indexOf(menu.name) >= 0) {
                     menu.quantity++;
                     found = true;
@@ -317,7 +359,7 @@ function settlePrices(orders, callback) {
                 }
             }
             if (!found) {
-                orderColletion.push({
+                orderCollection.push({
                     name: order,
                     quantity: 1,
                     price: ''
@@ -325,12 +367,12 @@ function settlePrices(orders, callback) {
             }
         }
         if (callback) {
-            callback(orderColletion);
+            callback(orderCollection);
         }
     });
 }
 
-function getPrice(order, orderColletion) {
+function getPrice(order, orderCollection) {
 
     return null;
 }

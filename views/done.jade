@@ -1,0 +1,13 @@
+doctype html
+html
+    head
+        include commonHead
+    body
+        .title
+            h2= __('order_success')
+        p(style="border: solid blue 2px; background-color: #FFFFE0; text-align: center; margin-left: 70px; margin-right: 70px;" +
+        "padding-top: 60px; padding-bottom: 60px; font-size: 200%;")
+            span= __('last_order')
+            span= lastOrder
+        div(style="text-align: center;")
+            a(href='/')= __('back_to_enquete')

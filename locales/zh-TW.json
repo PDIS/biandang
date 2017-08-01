@@ -32,5 +32,7 @@
   "delete_selected_orders": "刪除已選訂單",
   "name": "名字",
   "ordered": "點餐",
-  "paid": "已付款"
+  "paid": "已付款",
+  "back_to_enquete": "回到點餐頁",
+  "order_success": "訂餐完成"
 }

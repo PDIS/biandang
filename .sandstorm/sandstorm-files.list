@@ -569,11 +569,13 @@ opt/app/public/stylesheets/style.css
 opt/app/routes/main.js
 opt/app/views/admin.jade
 opt/app/views/commonHead.jade
+opt/app/views/done.jade
 opt/app/views/enquete.jade
 opt/app/views/enquete_body.jade
 opt/app/views/error.jade
 opt/app/views/manage.jade
 opt/app/views/orders.jade
+opt/app/views/priceList.jade
 proc/cpuinfo
 sandstorm-http-bridge
 sandstorm-http-bridge-config

@@ -1,0 +1,9 @@
+tr
+    th= __('item')
+    th= __('quantity')
+    th= __('price')
+- each menu in orderCollection
+    tr
+        td.menu(contenteditable)= menu.name
+        td.quantity(contenteditable)= menu.quantity
+        td.price(contenteditable)= menu.price

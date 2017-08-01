@@ -9,6 +9,7 @@ $().ready(function () {
         modal: true
     });
     setupOrderList();
+    setupPriceList();
 });
 
 function clearOrders() {
@@ -72,7 +73,47 @@ function setupOrderList() {
             url: '/order',
             data: {
                 myName: key,
-                order: value
+                order: value,
+                getPriceList: true
+            }
+        }).done(function (resp) {
+            $('#prices').html(resp);
+        });
+    }).on('keypress', function (ev) {
+        var $e = $(ev.target);
+        switch (ev.keyCode || ev.which) {
+            case 13:
+                $e.blur();
+                return false;
+        }
+    }).on('keyup', function (ev) {
+        var $e = $(ev.target);
+        switch (ev.keyCode || ev.which) {
+            case 27:
+                $e.html(gInputingTd);
+                $e.blur();
+                break;
+        }
+    });
+}
+
+var gInputingPrice;
+
+function setupPriceList() {
+    var $price = $('.price');
+    $price.on('focus', function (ev) {
+        var $e = $(ev.target);
+        gInputingPrice = $e.text();
+    }).on('blur', function (ev) {
+        var $e = $(ev.target);
+        var key = $e.prev('td').prev('td').html();
+        var value = $e.text();
+        $.ajax({
+            method: 'POST',
+            url: '/setPrice',
+            data: {
+                menu: key,
+                price: value
             }
         });
     }).on('keypress', function (ev) {

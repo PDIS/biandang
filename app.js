@@ -36,15 +36,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/biandangImages', express.static('/var/biandangImages'))
 
-app.use('/', main);
-app.use('/uploadImage', main);
-app.use('/imageUrl', main);
-app.use('/description', main);
-app.use('/order', main);
-app.use('/getMyOrder', main);
-app.use('/clearOrders', main);
-app.use('/setMenu', main);
-app.use('/pay', main);
+app.use(main);
+// app.use('/', main);
+// app.use('/uploadImage', main);
+// app.use('/imageUrl', main);
+// app.use('/description', main);
+// app.use('/order', main);
+// app.use('/getMyOrder', main);
+// app.use('/clearOrders', main);
+// app.use('/setMenu', main);
+// app.use('/pay', main);
+// app.use('/done', main);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
