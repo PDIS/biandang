@@ -63,11 +63,11 @@ function setupOrderList() {
     var $td = $('td.order[contenteditable]');
     $td.on('focus', function (ev) {
         var $e = $(ev.target);
-        gInputingTd = $e.html();
+        gInputingTd = $e.text();
     }).on('blur', function (ev) {
         var $e = $(ev.target);
-        var key = $e.prev('td').html();
-        var value = $e.html();
+        var key = $e.prev('td').text();
+        var value = $e.text();
         $.ajax({
             method: 'POST',
             url: '/order',
@@ -77,8 +77,7 @@ function setupOrderList() {
                 getPriceList: true
             }
         }).done(function (resp) {
-            var $table = $('#prices');
-            $table.replaceWith(resp);
+            $('#prices').replaceWith(resp);
             setupPriceList();
         });
     }).on('keypress', function (ev) {
@@ -99,16 +98,17 @@ function setupOrderList() {
     });
 }
 
-var gInputingPrice;
+var gInputtingPrice;
+var gInputtingMenu;
 
 function setupPriceList() {
     var $price = $('.price');
     $price.on('focus', function (ev) {
         var $e = $(ev.target);
-        gInputingPrice = $e.text();
+        gInputtingPrice = $e.text();
     }).on('blur', function (ev) {
         var $e = $(ev.target);
-        var key = $e.prev('td').prev('td').html();
+        var key = $e.prev('td').prev('td').text();
         var value = $e.text();
         $.ajax({
             method: 'POST',
@@ -117,6 +117,9 @@ function setupPriceList() {
                 menu: key,
                 price: value
             }
+        }).done(function (resp) {
+            $('#prices').replaceWith(resp);
+            setupPriceList();
         });
     }).on('keypress', function (ev) {
         var $e = $(ev.target);
@@ -129,7 +132,43 @@ function setupPriceList() {
         var $e = $(ev.target);
         switch (ev.keyCode || ev.which) {
             case 27:
-                $e.html(gInputingTd);
+                $e.text(gInputtingPrice);
+                $e.blur();
+                break;
+        }
+    });
+
+    var $menu = $('.menu');
+    $menu.on('focus', function (ev) {
+        var $e = $(ev.target);
+        gInputtingMenu = $e.text();
+    }).on('blur', function (ev) {
+        var $e = $(ev.target);
+        var before = gInputtingMenu;
+        var after = $e.text();
+        $.ajax({
+            method: 'POST',
+            url: '/setMenu',
+            data: {
+                before: before,
+                after: after
+            }
+        }).done(function (resp) {
+            $('#prices').replaceWith(resp);
+            setupPriceList();
+        });
+    }).on('keypress', function (ev) {
+        var $e = $(ev.target);
+        switch (ev.keyCode || ev.which) {
+            case 13:
+                $e.blur();
+                return false;
+        }
+    }).on('keyup', function (ev) {
+        var $e = $(ev.target);
+        switch (ev.keyCode || ev.which) {
+            case 27:
+                $e.text(gInputtingMenu);
                 $e.blur();
                 break;
         }

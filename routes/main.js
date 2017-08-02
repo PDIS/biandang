@@ -171,7 +171,35 @@ router.post('/clearOrders', function (req, res) {
 });
 
 router.post('/setMenu', function (req, res) {
-    // TODO
+    var before = req.body.before;
+    var after = req.body.after;
+    db.get('prices', function (err1, value1) {
+        var priceList = [];
+        if (!(err1 && err1.notFound)) {
+            priceList = JSON.parse(value1);
+        }
+        // Alter price in list
+        var found = false;
+        for (var i = 0; i < priceList.length; i++) {
+            var o = priceList[i];
+            if (o.name === before) {
+                if (after) {
+                    o.name = after;
+                } else {
+                    priceList.splice(i, 1);
+                }
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            priceList.push({name: after, price: ''});
+        }
+        db.put('prices', JSON.stringify(priceList), function () {
+            generatePriceList(req, res);
+        });
+    });
+
 });
 
 router.post('/setPrice', function (req, res) {
@@ -197,7 +225,7 @@ router.post('/setPrice', function (req, res) {
             });
         }
         db.put('prices', JSON.stringify(orderCollection));
-        res.send('ok');
+        generatePriceList(req, res);
     });
 });
 
@@ -332,11 +360,11 @@ function renderEnquete(req, res, imagesHTML, desc) {
 
 function settlePrices(orders, callback) {
     db.get('prices', function (err1, value1) {
-        var orderCollection = [];
         var priceList = [];
         if (!(err1 && err1.notFound)) {
             priceList = JSON.parse(value1);
         }
+        var orderCollection = [];
         for (var i in priceList) {
             var p = priceList[i];
             orderCollection.push({
@@ -368,21 +396,19 @@ function settlePrices(orders, callback) {
                 });
             }
         }
-        for (var i in orderCollection) {
-            var o = orderCollection[i];
-            if (o.price != '') {
+        for (var ti in orderCollection) {
+            var o = orderCollection[ti];
+            if (o.price !== '') {
                 total += o.quantity * o.price;
             }
         }
+        orderCollection.sort(function (a, b) {
+            return b.quantity - a.quantity;
+        });
         if (callback) {
             callback(orderCollection, total);
         }
     });
-}
-
-function getPrice(order, orderCollection) {
-
-    return null;
 }
 
 function getUserName(req) {
@@ -393,6 +419,18 @@ function isAdmin(req) {
     var permissions = req.headers['x-sandstorm-permissions'];
     if (!permissions) return false;
     return permissions.indexOf('modify') >= 0;
+}
+
+function generatePriceList(req, res) {
+    db.get('orders', function (err, value) {
+        var orders = {};
+        if (!(err && err.notFound)) {
+            orders = JSON.parse(value);
+        }
+        settlePrices(orders, function (orderCollection, total) {
+            res.render('priceList', {orderCollection: orderCollection, total: total});
+        });
+    });
 }
 
 module.exports = router;
