@@ -118,8 +118,7 @@ function setupPriceList() {
                 price: value
             }
         }).done(function (resp) {
-            $('#prices').replaceWith(resp);
-            setupPriceList();
+            refreshPriceList(resp);
         });
     }).on('keypress', function (ev) {
         var $e = $(ev.target);
@@ -154,8 +153,7 @@ function setupPriceList() {
                 after: after
             }
         }).done(function (resp) {
-            $('#prices').replaceWith(resp);
-            setupPriceList();
+            refreshPriceList(resp);
         });
     }).on('keypress', function (ev) {
         var $e = $(ev.target);
@@ -173,4 +171,22 @@ function setupPriceList() {
                 break;
         }
     });
+}
+
+function refreshPriceList(resp) {
+    var pos = backupPriceFocus();
+    $('#prices').replaceWith(resp);
+    setupPriceList();
+    restorePriceFocus(pos);
+}
+
+function backupPriceFocus() {
+    var $ele = $(document.activeElement);
+    if (!($ele.is('td'))) return null;
+    return [$ele.parent().index(), $ele.index()];
+}
+
+function restorePriceFocus(pos) {
+    if (pos === null) return;
+    $('#prices tr').eq(pos[0]).children('td').eq(pos[1]).focus();
 }

@@ -205,6 +205,7 @@ router.post('/setMenu', function (req, res) {
 router.post('/setPrice', function (req, res) {
     var menu = req.body.menu;
     var price = req.body.price;
+    if (menu === '' || price === '') return;
     db.get('prices', function (err1, value1) {
         var orderCollection = [];
         if (!(err1 && err1.notFound)) {
@@ -379,6 +380,7 @@ function settlePrices(orders, callback) {
             if (!(typeof order === 'string')) {
                 order = order.order;
             }
+            if (order === '') continue;
             var found = false;
             for (var k in orderCollection) {
                 var menu = orderCollection[k];
@@ -403,7 +405,11 @@ function settlePrices(orders, callback) {
             }
         }
         orderCollection.sort(function (a, b) {
-            return b.quantity - a.quantity;
+            if (b.quantity != a.quantity) {
+                return b.quantity - a.quantity;
+            } else {
+                return a.name.localeCompare(b.name);
+            }
         });
         if (callback) {
             callback(orderCollection, total);

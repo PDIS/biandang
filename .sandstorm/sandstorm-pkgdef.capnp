@@ -17,9 +17,9 @@ const pkgdef :Spk.PackageDefinition = (
     # This manifest is included in your app package to tell Sandstorm
     # about your app.
 
-    appVersion = 201707240,  # Increment this for every release.
+    appVersion = 201708031,  # Increment this for every release.
     appTitle = (defaultText = "Biandang"),
-    appMarketingVersion = (defaultText = "2017.07.24.0"),
+    appMarketingVersion = (defaultText = "2017.08.03.1"),
 
     actions = [
       # Define your "new document" handlers here.
@@ -50,23 +50,22 @@ const pkgdef :Spk.PackageDefinition = (
       website = "https://github.com/PDIS/biandang",
       codeUrl = "https://github.com/PDIS/biandang",
       license = (openSource = apache2),
-      categories = [productivity],
+      categories = [office],
 
       author = (
         contactEmail = "urakagi@gmail.com",
-#        pgpSignature = embed "pgp-signature",
-#        upstreamAuthor = "Audrey Tang (EtherCalc) & ETBlue (Hackfoldr)",
+        pgpSignature = embed "pgp-signature",
       ),
-#      pgpKeyring = embed "pgp-keyring",
+      pgpKeyring = embed "pgp-keyring",
 
-#      description = (defaultText = embed "DESCRIPTION.mkdn"),
-#      shortDescription = (defaultText = "Organizing Web Links"),
+      description = (defaultText = embed "DESCRIPTION.mkdn"),
+      shortDescription = (defaultText = "Order your launch in office"),
 
       # screenshots = [
       #   (width = 478, height = 298, png = embed "../static/img/davy/gfx/screenshot.png")
       # ],
 
-#      changeLog = (defaultText = embed "CHANGELOG.mkdn"),
+      changeLog = (defaultText = embed "CHANGELOG.mkdn"),
     ),
   ),
 

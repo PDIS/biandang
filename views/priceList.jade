@@ -1,14 +1,14 @@
 div#prices
     table(border=1)
         tr
-            th= __('item')
+            th.editable-th= __('item')
             th= __('quantity')
-            th= __('price')
+            th.editable-th= __('price')
         - each menu in orderCollection
             tr
                 td.menu(contenteditable="true")= menu.name
                 td.quantity= menu.quantity
                 td.price(contenteditable="true")= menu.price
-    div
+    div(style="margin-top: 10px;")
         span= __('total')
         span= total

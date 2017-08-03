@@ -1,0 +1,4 @@
+It's time for launch, and your office decides to buy launch boxes (biandang in Chinese).
+This app lets all your members make order online, and who buys the launch boxes can manage and count what to buy and how many to buy quickly.
+
+This app is currently only available in Traditional Chinese, but of course you can use it in any environment.

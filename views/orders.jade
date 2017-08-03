@@ -6,25 +6,25 @@ div(style="display: inline-block;")
         h2= __('orders')
     table(cellpadding=2)
         tr
-            th= __('delete')
             th= __('name')
-            th= __('ordered')
+            th.editable-th= __('ordered')
             th= __('paid')
+            th= __('delete')
         - each order, name in orders
             tr
-                td
-                    input(type="checkbox" style="margin: 0;").delete-order
                 td= name
-                td.order(contenteditable)= (typeof order === 'string' ? order : order.order)
+                td.order(contenteditable="true")= (typeof order === 'string' ? order : order.order)
                 td
                     input.paid(type="checkbox"
                     checked=(order.paid ? "checked" : undefined)
                     style="width: 17px; height: 17px; border-radius: 2px; border: 1px solid #555;")
+                td
+                    input(type="checkbox" style="margin: 0;").delete-order
 div(style="display: inline-block; vertical-align: top; margin-left: 70px;")
     .title
         h2= __('prices')
     include priceList
-p
+p.no-print
     button(onclick="refresh()")= __('refresh')
     span &emsp;
     button(onclick="clearOrders()")= __('clear_orders')
@@ -35,3 +35,4 @@ div#confirm-clear(title="#{__('confirm_clear_data')}")
     p
         span(class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;")
         span= __('clear_data_hint')
+div.no-print!= __('management_hint')
