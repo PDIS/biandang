@@ -14,7 +14,7 @@ var app = express();
 // i18n setup
 i18n.configure({
     locales: ['zh-TW', 'en'],
-    defaultLocale: 'zh-TW',
+    defaultLocale: 'en',
     directory: __dirname + "/locales",
     // オブジェクトを利用したい場合はtrue
     objectNotation: true
