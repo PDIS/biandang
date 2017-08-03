@@ -36,7 +36,7 @@ function clearOrders() {
 function deleteSelectedOrders() {
     $('.delete-order').each(function (i, ele) {
         if ($(ele).is(':checked')) {
-            var name = $(ele).parent().next('td').text();
+            var name = $(ele).parent().prev('td').prev('td').prev('td').text();
             $.ajax({
                 method: 'DELETE',
                 url: 'order/' + encodeURIComponent(name)

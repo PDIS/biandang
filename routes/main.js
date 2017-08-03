@@ -83,8 +83,8 @@ router.post('/order', function (req, res) {
         orders[userName] = {order: order, paid: false};
         db.put('orders', JSON.stringify(orders));
         if (req.body.getPriceList) {
-            settlePrices(orders, function (orderCollection, total) {
-                res.render('priceList', {orderCollection: orderCollection, total: total});
+            settlePrices(orders, function (orderCollection, amount, total) {
+                res.render('priceList', {orderCollection: orderCollection, amount: amount, total: total});
             });
         } else {
             res.render('done', {lastOrder: order});
@@ -192,7 +192,7 @@ router.post('/setMenu', function (req, res) {
                 break;
             }
         }
-        if (!found) {
+        if (!found && after != '') {
             priceList.push({name: after, price: ''});
         }
         db.put('prices', JSON.stringify(priceList), function () {
@@ -205,7 +205,10 @@ router.post('/setMenu', function (req, res) {
 router.post('/setPrice', function (req, res) {
     var menu = req.body.menu;
     var price = req.body.price;
-    if (menu === '' || price === '') return;
+    if (menu === '' || price === '') {
+        generatePriceList(req, res);
+        return;
+    }
     db.get('prices', function (err1, value1) {
         var orderCollection = [];
         if (!(err1 && err1.notFound)) {
@@ -374,6 +377,7 @@ function settlePrices(orders, callback) {
                 price: p.price
             });
         }
+        var amount = 0;
         var total = 0;
         for (var key in orders) {
             var order = orders[key];
@@ -384,6 +388,9 @@ function settlePrices(orders, callback) {
             var found = false;
             for (var k in orderCollection) {
                 var menu = orderCollection[k];
+                if (menu.name.length == 0) {
+                    continue;
+                }
                 if (order.indexOf(menu.name) >= 0) {
                     menu.quantity++;
                     found = true;
@@ -403,6 +410,7 @@ function settlePrices(orders, callback) {
             if (o.price !== '') {
                 total += o.quantity * o.price;
             }
+            amount++;
         }
         orderCollection.sort(function (a, b) {
             if (b.quantity != a.quantity) {
@@ -433,8 +441,8 @@ function generatePriceList(req, res) {
         if (!(err && err.notFound)) {
             orders = JSON.parse(value);
         }
-        settlePrices(orders, function (orderCollection, total) {
-            res.render('priceList', {orderCollection: orderCollection, total: total});
+        settlePrices(orders, function (orderCollection, amount, total) {
+            res.render('priceList', {orderCollection: orderCollection, amount: amount, total: total});
         });
     });
 }
