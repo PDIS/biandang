@@ -321,12 +321,13 @@ function renderAdmin(req, res, imagesHTML, desc) {
                 myOrder = res.__('last_order') + orders[name].order;
             }
         }
-        settlePrices(orders, function (orderCollection, total) {
+        settlePrices(orders, function (orderCollection, amount, total) {
             res.render('admin', {
                 'imagesHTML': imagesHTML,
                 'description': desc,
                 'orders': orders,
                 'orderCollection': orderCollection,
+                'amount': amount,
                 'total': total,
                 'myName': name,
                 'myOrder': myOrder
@@ -410,7 +411,7 @@ function settlePrices(orders, callback) {
             if (o.price !== '') {
                 total += o.quantity * o.price;
             }
-            amount++;
+            amount += o.quantity;
         }
         orderCollection.sort(function (a, b) {
             if (b.quantity != a.quantity) {
@@ -420,7 +421,7 @@ function settlePrices(orders, callback) {
             }
         });
         if (callback) {
-            callback(orderCollection, total);
+            callback(orderCollection, amount, total);
         }
     });
 }
