@@ -1,2 +1,3 @@
-It's time for launch, and your office decides to buy launch boxes (biandang in Chinese).
-This app lets all your members make order online, and who buys the launch boxes can manage and count what to buy and how many to buy quickly.
+It's time for lunch, and your office decides to buy lunch boxes ("biandang" in Taiwan Mandarin).
+
+This general-purpose form tool lets all your members make order online, and who buys the lunch boxes can manage and count what to buy and how many to buy quickly.

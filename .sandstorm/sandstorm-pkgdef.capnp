@@ -59,7 +59,7 @@ const pkgdef :Spk.PackageDefinition = (
       pgpKeyring = embed "pgp-keyring",
 
       description = (defaultText = embed "DESCRIPTION.mkdn"),
-      shortDescription = (defaultText = "Order your launch in office"),
+      shortDescription = (defaultText = "Form app for ordering lunch boxes"),
 
       # screenshots = [
       #   (width = 478, height = 298, png = embed "../static/img/davy/gfx/screenshot.png")
